@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import ChatPage from "./pages/ChatPage";
+import { socket } from "./utils/socket";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
-    <>
-      <div>Hello World</div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home socket={socket} />} />
+        <Route path="/chat" element={<ChatPage socket={socket} />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

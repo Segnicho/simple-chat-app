@@ -1,8 +1,48 @@
-import fs from "fs";;
-console.log("🚀 ~ file: index.ts:2 ~ 2:", 2)
-const addNumbers = (a: number, b: number):number => {
-    return a + b
-}
+import cors from "cors";
+import dotenv from "dotenv";
+import http from "http";
+import express from "express";
+import { Server as SocketIOServer } from "socket.io";
 
-const res = addNumbers(3, 5)
-console.log("🚀 ~ file: index.ts:7 ~ res:", res)
+dotenv.config();
+const app = express();
+const PORT = 5000;
+app.use(cors());
+const server = http.createServer(app);
+
+const socketIO = new SocketIOServer(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  },
+});
+
+let users:any[] = []
+
+socketIO.on("connection", (socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+
+  socket.on("message", (message) => {
+  console.log("🚀 ~ file: index.ts:26 ~ socket.on ~ message:", message);
+  socketIO.emit("responseMessage", message);
+})
+
+socket.on("newuser",(newUser)=>{
+    users.push(newUser);
+    socketIO.emit("newUsersResponse",users)
+} )
+
+  socket.on("disconnect", () => {
+    console.log("🔥: A user disconnected");
+  });
+});
+
+app.get("/api/", (req, res) => {
+  res.json({
+    message: "Hello",
+  });
+});
+
+server.listen(PORT, () => {
+  console.log("server listening on port: ", PORT);
+});
