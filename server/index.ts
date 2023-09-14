@@ -28,6 +28,7 @@ socketIO.on("connection", (socket) => {
 })
 
 socket.on("newuser",(newUser)=>{
+    
     users.push(newUser);
     socketIO.emit("newUsersResponse",users)
 } )

@@ -20,6 +20,7 @@ const Home: React.FC<ChatPageProps> = ({ socket }) => {
     <div>
       <form action="" onSubmit={handleSubmit}>
         <input type="text" onChange={(e) => setUsername(e.target.value)} />
+        <button type="submit">Submit</button>
       </form>
     </div>
   );

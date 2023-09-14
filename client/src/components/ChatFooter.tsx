@@ -6,13 +6,13 @@ const ChatFooter = ({ socket }: { socket: any }) => {
   const handleSendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (message.trim() && localStorage.getItem("userName")) {
-        socket.emit("message",{
-            text: message.trim(),
-            name: localStorage.getItem("userName"),
-            id: `${socket.id}${Math.random()}`,
-            socketId: socket.id
-        })
-        setMessage("")
+      socket.emit("message", {
+        text: message.trim(),
+        name: localStorage.getItem("userName"),
+        id: `${socket.id}${Math.random()}`,
+        socketId: socket.id,
+      });
+      setMessage("");
     }
   };
 
@@ -24,7 +24,7 @@ const ChatFooter = ({ socket }: { socket: any }) => {
           placeholder="Write your message here"
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button>SEND</button>
+        <button typeof="submit">SEND</button>
       </form>
     </div>
   );
